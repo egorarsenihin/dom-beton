@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ПО «ЦНИЙЭП Жилища» — Каменные дома из ЖБК</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #1a1a1a;
+      --bg2:       #222222;
+      --bg3:       #2c2c2c;
+      --cream:     #f4efe8;
+      --text:      #ddd5c8;
+      --muted:     #7a7168;
+      --gold:      #c9a96e;
+      --gold-dim:  #8a6e3e;
+      --white:     #f0ebe2;
+      --border:    #333028;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise overlay ──────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── Typography ─────────────────────────────────────────── */
+    h1, h2, h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; line-height: 1.15; }
+    h1 { font-size: clamp(2.8rem, 7vw, 5.5rem); letter-spacing: -0.02em; }
+    h2 { font-size: clamp(2rem, 4.5vw, 3.4rem); letter-spacing: -0.015em; }
+    h3 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); }
+    .serif-italic { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+    p { color: var(--text); }
+    a { color: var(--gold); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--cream); }
+
+    /* ── Layout ─────────────────────────────────────────────── */
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+    section { position: relative; }
+
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    /* ── Gold divider ───────────────────────────────────────── */
+    .gold-line {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      margin: 24px 0;
+    }
+    .gold-line.center { margin: 24px auto; }
+
+    /* ── Buttons ────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 16px 36px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      border: none;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .btn-gold:hover {
+      background: var(--cream);
+      color: var(--bg);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+    }
+    .btn-outline:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    /* ── Scroll reveal ──────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+    .reveal-d6 { transition-delay: 0.6s; }
+
+    /* ══════════════════════════════════════════════════════════
+       NAV
+    ══════════════════════════════════════════════════════════ */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 32px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    #nav.scrolled {
+      background: rgba(26, 26, 26, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      height: 36px;
+      width: auto;
+      filter: brightness(1.1);
+    }
+    .nav-logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cream);
+      line-height: 1.3;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--cream); }
+    .nav-phone {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
+    .nav-phone:hover { color: var(--cream); }
+
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 32px;
+      height: 32px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 110;
+    }
+    .nav-burger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--cream);
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+
+      .nav-mobile-menu {
+        position: fixed;
+        inset: 0;
+        background: rgba(26, 26, 26, 0.97);
+        backdrop-filter: blur(16px);
+        z-index: 99;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
+      }
+      .nav-mobile-menu.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .nav-mobile-menu a {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(2rem, 7vw, 3rem);
+        font-weight: 300;
+        color: var(--text);
+        text-decoration: none;
+        padding: 16px 0;
+        letter-spacing: 0.02em;
+        transition: color 0.2s;
+        border-bottom: 1px solid var(--border);
+        width: 260px;
+        text-align: center;
+      }
+      .nav-mobile-menu a:last-child { border-bottom: none; }
+      .nav-mobile-menu a:hover { color: var(--gold); }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("планировки/дом 120 м2.jpg");
+      background-size: cover;
+      background-position: center 30%;
+      transform: scale(1.05);
+      transition: transform 8s ease;
+    }
+    .hero-bg.loaded { transform: scale(1); }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(26,26,26,0.55) 0%,
+        rgba(26,26,26,0.35) 40%,
+        rgba(26,26,26,0.85) 80%,
+        rgba(26,26,26,0.98) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(3.2rem, 8.5vw, 7rem);
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1.0;
+      margin-bottom: 28px;
+      max-width: 800px;
+    }
+    .hero-title em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(244, 239, 232, 0.7);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 72px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      padding-top: 40px;
+    }
+    .hero-stat {
+      flex: 1;
+      max-width: 220px;
+      padding-right: 40px;
+      border-right: 1px solid var(--border);
+      margin-right: 40px;
+    }
+    .hero-stat:last-child { border-right: none; margin-right: 0; }
+    .hero-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .hero-stat-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       TECHNOLOGY
+    ══════════════════════════════════════════════════════════ */
+    #technology {
+      background: var(--bg);
+      padding: 120px 0;
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    @media (max-width: 800px) {
+      .tech-grid { grid-template-columns: 1fr; gap: 60px; }
+    }
+
+    .tech-description {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+    .tech-description strong {
+      color: var(--cream);
+      font-weight: 500;
+    }
+
+    .tech-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 48px;
+    }
+    .tech-step {
+      display: flex;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .tech-step:first-child { border-top: 1px solid var(--border); }
+    .tech-step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--gold-dim);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 48px;
+    }
+    .tech-step-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+    .tech-step-text {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .tech-partners {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 48px;
+    }
+    .tech-partner-heading {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+    .tech-partner-item {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .tech-partner-item:last-child { border-bottom: none; }
+    .tech-partner-logo {
+      width: 100px;
+      height: 56px;
+      object-fit: contain;
+      filter: brightness(0.9) contrast(1.1);
+      flex-shrink: 0;
+      background: #fff;
+      padding: 8px;
+    }
+    .tech-partner-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 4px;
+    }
+    .tech-partner-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       ADVANTAGES
+    ══════════════════════════════════════════════════════════ */
+    #advantages {
+      background: var(--bg2);
+      padding: 120px 0;
+      border-top: 1px solid var(--border);
+    }
+    .advantages-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+    .advantages-header h2 { color: var(--cream); }
+    .advantages-header p {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 20px auto 0;
+    }
+
+    .advantages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    @media (max-width: 900px) {
+      .advantages-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .advantages-grid { grid-template-columns: 1fr; }
+    }
+
+    .advantage-card {
+      background: var(--bg);
+      padding: 48px 40px;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .advantage-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .advantage-card:hover { background: var(--bg3); }
+    .advantage-card:hover::before { transform: scaleX(1); }
+
+    .advantage-icon {
+      font-size: 2.2rem;
+      margin-bottom: 24px;
+      display: block;
+      line-height: 1;
+    }
+    .advantage-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .advantage-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+    .advantage-text {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       CATALOG
+    ══════════════════════════════════════════════════════════ */
+    #catalog {
+      background: var(--bg);
+      padding: 120px 0;
+      border-top: 1px solid var(--border);
+    }
+    .catalog-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 64px;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .catalog-header h2 { color: var(--cream); }
+    .catalog-header p {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .catalog-sort {
+      display: flex;
+      gap: 8px;
+    }
+    .sort-btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sort-btn.active, .sort-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2px;
+    }
+
+    .model-card {
+      background: var(--bg2);
+      cursor: pointer;
+      position: relative;
+      transition: background 0.3s;
+    }
+    .model-card:hover { background: var(--bg3); }
+
+    .model-card-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: var(--bg3);
+    }
+    .model-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 20px;
+      transition: transform 0.5s ease;
+      background: var(--bg3);
+    }
+    .model-card:hover .model-card-img img {
+      transform: scale(1.04);
+    }
+
+    .model-card-body {
+      padding: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .model-badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .model-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 4px;
+    }
+    .model-tagline {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .model-specs {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .model-spec { flex: 1; }
+    .model-spec-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1;
+    }
+    .model-spec-key {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .model-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .model-price-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .model-features {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+    .model-features li {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      padding: 5px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+    .model-features li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 13px;
+      width: 5px;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+
+    .model-expand-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .model-expand-btn:hover { color: var(--cream); }
+    .model-expand-btn .arrow {
+      transition: transform 0.3s;
+      font-size: 14px;
+    }
+    .model-card.expanded .model-expand-btn .arrow { transform: rotate(180deg); }
+
+    .model-expanded-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .model-card.expanded .model-expanded-content {
+      max-height: 600px;
+    }
+    .model-expanded-inner {
+      padding: 24px 32px 32px;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .model-expanded-inner p {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .model-cta {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       GALLERY
+    ══════════════════════════════════════════════════════════ */
+    #gallery {
+      background: var(--bg);
+      padding: 120px 0;
+      border-top: 1px solid var(--border);
+    }
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .gallery-header h2 { color: var(--cream); }
+    .gallery-header p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 16px auto 0;
+    }
+
+    .gallery-frame {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: var(--bg3);
+    }
+
+    .gallery-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .gallery-slide.active { opacity: 1; }
+    .gallery-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(26,26,26,0.95) 0%, transparent 100%);
+      padding: 40px 40px 28px;
+      z-index: 2;
+    }
+    .gallery-caption-step {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .gallery-caption-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--cream);
+    }
+    .gallery-counter {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: rgba(244, 239, 232, 0.5);
+      z-index: 2;
+    }
+    .gallery-progress {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: rgba(255,255,255,0.1);
+      z-index: 3;
+    }
+    .gallery-progress-bar {
+      height: 100%;
+      background: var(--gold);
+      width: 0%;
+      transition: width 3s linear;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       FACADES
+    ══════════════════════════════════════════════════════════ */
+    #facades {
+      background: var(--bg2);
+      padding: 120px 0;
+      border-top: 1px solid var(--border);
+    }
+    .facades-header {
+      margin-bottom: 64px;
+    }
+    .facades-header h2 { color: var(--cream); }
+    .facades-header p {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 560px;
+      margin-top: 16px;
+      line-height: 1.7;
+    }
+
+    .facades-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+    @media (max-width: 900px) {
+      .facades-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .facades-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .facade-item {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: var(--bg3);
+      cursor: pointer;
+    }
+    .facade-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      display: block;
+    }
+    .facade-item:hover img { transform: scale(1.06); }
+    .facade-item-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 20px 16px 12px;
+      background: linear-gradient(to top, rgba(26,26,26,0.85) 0%, transparent 100%);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: rgba(244,239,232,0.7);
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .facade-item:hover .facade-item-label { opacity: 1; }
+
+    .facades-note {
+      margin-top: 48px;
+      padding: 32px 40px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .facades-note p {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .facades-note strong {
+      color: var(--cream);
+      font-weight: 500;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       GUARANTEE
+    ══════════════════════════════════════════════════════════ */
+    #guarantee {
+      background: var(--bg);
+      padding: 120px 0;
+      border-top: 1px solid var(--border);
+    }
+    .guarantee-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    @media (max-width: 800px) {
+      .guarantee-inner { grid-template-columns: 1fr; gap: 60px; }
+    }
+
+    .guarantee-text h2 { color: var(--cream); margin-bottom: 24px; }
+    .guarantee-text p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .guarantee-text strong { color: var(--gold); font-weight: 600; }
+
+    .guarantee-items {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .guarantee-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .guarantee-item:first-child { border-top: 1px solid var(--border); }
+    .guarantee-item-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .guarantee-item-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    .guarantee-visual {
+      text-align: center;
+    }
+    .guarantee-logo-wrap {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+    .guarantee-logo-wrap img {
+      max-width: 200px;
+      height: auto;
+      object-fit: contain;
+      background: #fff;
+      padding: 16px 24px;
+    }
+    .guarantee-badge-text {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+    .guarantee-years {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .guarantee-years-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       CONTACTS
+    ══════════════════════════════════════════════════════════ */
+    #contacts {
+      background: var(--bg2);
+      padding: 120px 0;
+      border-top: 1px solid var(--border);
+    }
+    .contacts-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    @media (max-width: 800px) {
+      .contacts-inner { grid-template-columns: 1fr; gap: 60px; }
+    }
+
+    .contacts-left h2 {
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+    .contacts-left > p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 400px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    .contact-item {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-item:first-of-type { border-top: 1px solid var(--border); }
+    .contact-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .contact-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--cream);
+    }
+    .contact-value a {
+      color: var(--cream);
+      transition: color 0.2s;
+    }
+    .contact-value a:hover { color: var(--gold); }
+
+    .contacts-cta {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .contacts-cta h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--cream);
+    }
+    .contacts-cta p {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .contacts-cta-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════════════════ */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 14px; }
+    .footer-logo img {
+      height: 28px;
+      filter: brightness(0.7);
+    }
+    .footer-copy {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--muted);
+    }
+    .footer-right {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAV ══════════════════════════════════════════════════ -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">
+      <img src="logo.png" alt="Дом-Бетон">
+      <span class="nav-logo-text">ПО «ЦНИЙЭП Жилища»</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#technology">Технология</a></li>
+      <li><a href="#catalog">Проекты</a></li>
+      <li><a href="#gallery">Строительство</a></li>
+      <li><a href="#facades">Фасады</a></li>
+      <li><a href="#contacts">Контакты</a></li>
+    </ul>
+    <a href="tel:+79031301080" class="nav-phone">+7 903 130 10 80</a>
+    <button class="nav-burger" id="navBurger" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile-menu" id="navMobileMenu">
+    <a href="#technology" class="nav-mobile-link">Технология</a>
+    <a href="#catalog" class="nav-mobile-link">Проекты</a>
+    <a href="#gallery" class="nav-mobile-link">Строительство</a>
+    <a href="#facades" class="nav-mobile-link">Фасады</a>
+    <a href="#contacts" class="nav-mobile-link">Контакты</a>
+  </div>
+
+  <!-- ══ HERO ═════════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">ПО «ЦНИЙЭП Жилища» — система полносборных домов</p>
+      <h1 class="hero-title">
+        Каменные дома.<br>
+        <em>На всю жизнь.</em>
+      </h1>
+      <p class="hero-sub">Загородные дома из железобетонных конструкций заводского изготовления. Строим быстро — живёте вечно.</p>
+      <div class="hero-actions">
+        <a href="#catalog" class="btn btn-gold">Смотреть проекты</a>
+        <a href="#technology" class="btn btn-outline">О технологии</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">8–12</div>
+          <div class="hero-stat-label">недель на строительство</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">50+</div>
+          <div class="hero-stat-label">лет службы без усадки</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">7</div>
+          <div class="hero-stat-label">готовых моделей домов</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TECHNOLOGY ════════════════════════════════════════════ -->
+  <section id="technology">
+    <div class="container">
+      <div class="tech-grid">
+        <div>
+          <span class="section-label reveal">Технология</span>
+          <h2 class="reveal reveal-d1" style="color:var(--cream)">Железобетон нового поколения</h2>
+          <div class="gold-line reveal reveal-d2"></div>
+          <p class="tech-description reveal reveal-d3">
+            Дома строятся по системе ЦНИЙЭП Жилища — отработанной технологии
+            <strong>полносборных железобетонных конструкций</strong>. Панели размером
+            до 9 × 4,6 м изготавливаются на заводе с заводской теплоизоляцией
+            и доставляются готовыми к монтажу.
+          </p>
+          <p class="tech-description reveal reveal-d4">
+            Никакой «мокрой» кладки на площадке: дом собирается как точный механизм.
+            Результат — <strong>геометрически идеальная коробка</strong> без усадки,
+            готовая к чистовой отделке в день завершения монтажа.
+          </p>
+
+          <div class="tech-steps">
+            <div class="tech-step reveal reveal-d1">
+              <span class="tech-step-num">01</span>
+              <div>
+                <div class="tech-step-title">Завод</div>
+                <div class="tech-step-text">Панели с теплоизоляцией и армированием изготавливаются в заводских условиях — постоянный контроль качества, точные допуски.</div>
+              </div>
+            </div>
+            <div class="tech-step reveal reveal-d2">
+              <span class="tech-step-num">02</span>
+              <div>
+                <div class="tech-step-title">Монтаж</div>
+                <div class="tech-step-text">Доставка на площадку и сборка коробки за 8–12 недель. Работы ведутся в любой сезон, независимо от температуры.</div>
+              </div>
+            </div>
+            <div class="tech-step reveal reveal-d3">
+              <span class="tech-step-num">03</span>
+              <div>
+                <div class="tech-step-title">Готов к отделке</div>
+                <div class="tech-step-text">Нет усадки, нет ожидания — сразу приступаете к внутренней и фасадной отделке любого типа по вашему вкусу.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="tech-partners reveal reveal-d2">
+            <div class="tech-partner-heading">Партнёры и производители</div>
+            <div class="tech-partner-item">
+              <img src="logo.png" alt="Дом-Бетон" class="tech-partner-logo">
+              <div>
+                <div class="tech-partner-name">Дом-Бетон</div>
+                <div class="tech-partner-desc">Официальный застройщик по системе ЦНИЙЭП Жилища. Полный цикл — от проекта до ключей.</div>
+              </div>
+            </div>
+            <div class="tech-partner-item">
+              <img src="garanty_mosbeton.jpeg" alt="МОСБЕТОН" class="tech-partner-logo">
+              <div>
+                <div class="tech-partner-name">МОСБЕТОН</div>
+                <div class="tech-partner-desc">Производитель ЖБК-конструкций. Завод полного цикла, документарная гарантия на изделия.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ADVANTAGES ════════════════════════════════════════════ -->
+  <section id="advantages">
+    <div class="container">
+      <div class="advantages-header">
+        <span class="section-label reveal">Почему ЖБК</span>
+        <h2 class="reveal reveal-d1">Шесть причин выбрать<br><em class="serif-italic">железобетон</em></h2>
+        <p class="reveal reveal-d2">Технология, проверенная десятилетиями советского и современного строительства</p>
+      </div>
+      <div class="advantages-grid">
+        <div class="advantage-card reveal reveal-d1">
+          <span class="advantage-icon">⚡</span>
+          <div class="advantage-value">8–12 нед</div>
+          <div class="advantage-title">Скорость</div>
+          <p class="advantage-text">В 3–5 раз быстрее кирпичного строительства. Монтаж панелей не зависит от погоды и ведётся круглый год.</p>
+        </div>
+        <div class="advantage-card reveal reveal-d2">
+          <span class="advantage-icon">🌡</span>
+          <div class="advantage-value">В 2–3×</div>
+          <div class="advantage-title">Теплее кирпича</div>
+          <p class="advantage-text">Панели с заводской теплоизоляцией обеспечивают высокое сопротивление теплопередаче — меньше затраты на отопление.</p>
+        </div>
+        <div class="advantage-card reveal reveal-d3">
+          <span class="advantage-icon">🔩</span>
+          <div class="advantage-value">до 7 б</div>
+          <div class="advantage-title">Сейсмостойкость</div>
+          <p class="advantage-text">Монолитные ЖБК-соединения обеспечивают сейсмостойкость до 7 баллов. Огнестойкость и ветрозащита на уровне промышленного строительства.</p>
+        </div>
+        <div class="advantage-card reveal reveal-d4">
+          <span class="advantage-icon">🏛</span>
+          <div class="advantage-value">50+ лет</div>
+          <div class="advantage-title">Долговечность</div>
+          <p class="advantage-text">Расчётный срок эксплуатации свыше 50 лет. Нет усадки — сразу после монтажа можно укладывать плитку, вешать мебель.</p>
+        </div>
+        <div class="advantage-card reveal reveal-d5">
+          <span class="advantage-icon">🛡</span>
+          <div class="advantage-value">A/I/Bio</div>
+          <div class="advantage-title">Тройная защита</div>
+          <p class="advantage-text">Бетон не горит, не гниёт, не поражается насекомыми. Ветро-, огне- и биозащита без дополнительных обработок.</p>
+        </div>
+        <div class="advantage-card reveal reveal-d6">
+          <span class="advantage-icon">❄</span>
+          <div class="advantage-value">365 дней</div>
+          <div class="advantage-title">Всесезонность</div>
+          <p class="advantage-text">Монтаж ведётся зимой, летом, в дождь. Лёгкость конструкции снижает нагрузку на фундамент — экономия до 30%.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CATALOG ═══════════════════════════════════════════════ -->
+  <section id="catalog">
+    <div class="container">
+      <div class="catalog-header">
+        <div>
+          <span class="section-label reveal">Каталог</span>
+          <h2 class="reveal reveal-d1" style="color:var(--cream)">7 готовых проектов</h2>
+          <p class="reveal reveal-d2">От 60 до 188 м² — для любой семьи и бюджета</p>
+        </div>
+        <div class="catalog-sort reveal reveal-d2">
+          <button class="sort-btn active" data-sort="area">По площади</button>
+          <button class="sort-btn" data-sort="price">По цене</button>
+        </div>
+      </div>
+
+      <div class="catalog-grid" id="catalogGrid">
+
+        <!-- Д60 -->
+        <div class="model-card reveal" data-area="60" data-price="5340000">
+          <div class="model-card-img">
+            <img src="цены и инфо о домах/Д60 МОДЕЛЬ.png" alt="Д60" loading="lazy">
+          </div>
+          <div class="model-card-body">
+            <div class="model-badge">Проект Д60</div>
+            <div class="model-name">Д60</div>
+            <div class="model-tagline">«Компактный и стильный дом»</div>
+            <div class="model-specs">
+              <div class="model-spec">
+                <div class="model-spec-val">60</div>
+                <div class="model-spec-key">м² общая</div>
+              </div>
+              <div class="model-spec">
+                <div class="model-spec-val">1</div>
+                <div class="model-spec-key">этаж</div>
+              </div>
+            </div>
+            <div class="model-price">5 340 000 ₽</div>
+            <div class="model-price-label">стоимость под ключ</div>
+            <ul class="model-features">
+              <li>2 спальни</li>
+              <li>Кухня-гостиная</li>
+              <li>Терраса 17 м²</li>
+              <li>Санузел</li>
+            </ul>
+            <button class="model-expand-btn">
+              Подробнее <span class="arrow">▾</span>
+            </button>
+          </div>
+          <div class="model-expanded-content">
+            <div class="model-expanded-inner">
+              <p>Д60 — идеальный дом для пары или небольшой семьи. Продуманная планировка на 60 м² включает всё необходимое: две отдельные спальни, просторную кухню-гостиную и открытую террасу 17 м², которая летом превращается в главную «комнату» дома.</p>
+              <div class="model-cta">
+                <a href="tel:+79031301080" class="btn btn-gold">Позвонить</a>
+                <a href="mailto:se6@yandex.ru?subject=Интерес к проекту Д60" class="btn btn-outline">Написать</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Д80 -->
+        <div class="model-card reveal reveal-d1" data-area="80" data-price="5592000">
+          <div class="model-card-img">
+            <img src="цены и инфо о домах/Д80 МОДЕЛЬ.png" alt="Д80" loading="lazy">
+          </div>
+          <div class="model-card-body">
+            <div class="model-badge">Проект Д80</div>
+            <div class="model-name">Д80</div>
+            <div class="model-tagline">«Идеальный загородный дом»</div>
+            <div class="model-specs">
+              <div class="model-spec">
+                <div class="model-spec-val">80</div>
+                <div class="model-spec-key">м² общая</div>
+              </div>
+              <div class="model-spec">
+                <div class="model-spec-val">1</div>
+                <div class="model-spec-key">этаж</div>
+              </div>
+            </div>
+            <div class="model-price">5 592 000 ₽</div>
+            <div class="model-price-label">стоимость под ключ</div>
+            <ul class="model-features">
+              <li>Кухня-гостиная</li>
+              <li>2 спальни</li>
+              <li>Кабинет</li>
+              <li>Санузел + постирочная</li>
+            </ul>
+            <button class="model-expand-btn">
+              Подробнее <span class="arrow">▾</span>
+            </button>
+          </div>
+          <div class="model-expanded-content">
+            <div class="model-expanded-inner">
+              <p>Д80 — самый популярный проект. Кабинет позволяет работать удалённо, не мешая домочадцам. Просторная кухня-гостиная — сердце дома для семейных вечеров. Полноценный первый этаж без лишних лестниц.</p>
+              <div class="model-cta">
+                <a href="tel:+79031301080" class="btn btn-gold">Позвонить</a>
+                <a href="mailto:se6@yandex.ru?subject=Интерес к проекту Д80" class="btn btn-outline">Написать</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Д100 -->
+        <div class="model-card reveal reveal-d2" data-area="100" data-price="6980000">
+          <div class="model-card-img">
+            <img src="цены и инфо о домах/Д100 модель.png" alt="Д100" loading="lazy">
+          </div>
+          <div class="model-card-body">
+            <div class="model-badge">Проект Д100</div>
+            <div class="model-name">Д100</div>
+            <div class="model-tagline">«Загородный комфорт»</div>
+            <div class="model-specs">
+              <div class="model-spec">
+                <div class="model-spec-val">100</div>
+                <div class="model-spec-key">м² общая</div>
+              </div>
+              <div class="model-spec">
+                <div class="model-spec-val">1</div>
+                <div class="model-spec-key">этаж</div>
+              </div>
+            </div>
+            <div class="model-price">6 980 000 ₽</div>
+            <div class="model-price-label">стоимость под ключ</div>
+            <ul class="model-features">
+              <li>3 спальни</li>
+              <li>Кабинет</li>
+              <li>2 санузла</li>
+              <li>Котельная</li>
+            </ul>
+            <button class="model-expand-btn">
+              Подробнее <span class="arrow">▾</span>
+            </button>
+          </div>
+          <div class="model-expanded-content">
+            <div class="model-expanded-inner">
+              <p>Д100 — полноценный дом для семьи с детьми. Три спальни, два санузла и котельная обеспечивают полную автономность. Площадь 100,5 м² позволяет обустроить каждую комнату без компромиссов.</p>
+              <div class="model-cta">
+                <a href="tel:+79031301080" class="btn btn-gold">Позвонить</a>
+                <a href="mailto:se6@yandex.ru?subject=Интерес к проекту Д100" class="btn btn-outline">Написать</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Д113 Оскар -->
+        <div class="model-card reveal reveal-d3" data-area="113" data-price="8345000">
+          <div class="model-card-img">
+            <img src="цены и инфо о домах/Д113 модель.png" alt="Д113 Оскар" loading="lazy">
+          </div>
+          <div class="model-card-body">
+            <div class="model-badge">Проект Д113 «Оскар»</div>
+            <div class="model-name">Д113 <em class="serif-italic" style="font-size:1.3rem;color:var(--gold)">Оскар</em></div>
+            <div class="model-tagline">«Стиль и комфорт»</div>
+            <div class="model-specs">
+              <div class="model-spec">
+                <div class="model-spec-val">113</div>
+                <div class="model-spec-key">м² общая</div>
+              </div>
+              <div class="model-spec">
+                <div class="model-spec-val">2</div>
+                <div class="model-spec-key">этажа</div>
+              </div>
+            </div>
+            <div class="model-price">8 345 000 ₽</div>
+            <div class="model-price-label">стоимость под ключ</div>
+            <ul class="model-features">
+              <li>4 спальни (2 этажа)</li>
+              <li>Просторная гостиная</li>
+              <li>Терраса</li>
+              <li>2 санузла</li>
+            </ul>
+            <button class="model-expand-btn">
+              Подробнее <span class="arrow">▾</span>
+            </button>
+          </div>
+          <div class="model-expanded-content">
+            <div class="model-expanded-inner">
+              <p>«Оскар» — двухэтажный дом с характером. Четыре спальни позволяют разместить большую семью или выделить гостевую комнату. Вертикальное зонирование: первый этаж — общественные пространства, второй — приватная зона.</p>
+              <div class="model-cta">
+                <a href="tel:+79031301080" class="btn btn-gold">Позвонить</a>
+                <a href="mailto:se6@yandex.ru?subject=Интерес к проекту Д113 Оскар" class="btn btn-outline">Написать</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Д120 -->
+        <div class="model-card reveal reveal-d4" data-area="120" data-price="8240000">
+          <div class="model-card-img">
+            <img src="цены и инфо о домах/Д120 модель.png" alt="Д120" loading="lazy">
+          </div>
+          <div class="model-card-body">
+            <div class="model-badge">Проект Д120</div>
+            <div class="model-name">Д120</div>
+            <div class="model-tagline">«Дом мечты»</div>
+            <div class="model-specs">
+              <div class="model-spec">
+                <div class="model-spec-val">120</div>
+                <div class="model-spec-key">м² общая</div>
+              </div>
+              <div class="model-spec">
+                <div class="model-spec-val">2</div>
+                <div class="model-spec-key">этажа</div>
+              </div>
+            </div>
+            <div class="model-price">8 240 000 ₽</div>
+            <div class="model-price-label">стоимость под ключ</div>
+            <ul class="model-features">
+              <li>Мастер-спальня</li>
+              <li>Гостевая спальня</li>
+              <li>4 комнаты</li>
+              <li>2 санузла</li>
+            </ul>
+            <button class="model-expand-btn">
+              Подробнее <span class="arrow">▾</span>
+            </button>
+          </div>
+          <div class="model-expanded-content">
+            <div class="model-expanded-inner">
+              <p>Д120 — «Дом мечты» с мастер-спальней, отдельной гостевой и просторными зонами отдыха. Четыре комнаты на двух этажах дают гибкость в обустройстве — кабинет, детская, гостевая, хобби-рум.</p>
+              <div class="model-cta">
+                <a href="tel:+79031301080" class="btn btn-gold">Позвонить</a>
+                <a href="mailto:se6@yandex.ru?subject=Интерес к проекту Д120" class="btn btn-outline">Написать</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Д147 -->
+        <div class="model-card reveal reveal-d5" data-area="147" data-price="10950000">
+          <div class="model-card-img">
+            <img src="цены и инфо о домах/Д147 Модель.png" alt="Д147" loading="lazy">
+          </div>
+          <div class="model-card-body">
+            <div class="model-badge">Проект Д147</div>
+            <div class="model-name">Д147</div>
+            <div class="model-tagline">«Большой загородный дом»</div>
+            <div class="model-specs">
+              <div class="model-spec">
+                <div class="model-spec-val">147</div>
+                <div class="model-spec-key">м² общая</div>
+              </div>
+              <div class="model-spec">
+                <div class="model-spec-val">2</div>
+                <div class="model-spec-key">этажа</div>
+              </div>
+            </div>
+            <div class="model-price">10 950 000 ₽</div>
+            <div class="model-price-label">стоимость под ключ</div>
+            <ul class="model-features">
+              <li>Двухэтажная планировка</li>
+              <li>Просторные комнаты</li>
+              <li>Котельная</li>
+              <li>Терраса</li>
+            </ul>
+            <button class="model-expand-btn">
+              Подробнее <span class="arrow">▾</span>
+            </button>
+          </div>
+          <div class="model-expanded-content">
+            <div class="model-expanded-inner">
+              <p>Д147 — дом для большой семьи или тех, кто ценит пространство. 147 м² на двух этажах с продуманным зонированием позволяют разделить общественную и приватную жизнь. Просторные комнаты — потолки, свет, воздух.</p>
+              <div class="model-cta">
+                <a href="tel:+79031301080" class="btn btn-gold">Позвонить</a>
+                <a href="mailto:se6@yandex.ru?subject=Интерес к проекту Д147" class="btn btn-outline">Написать</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Д188 -->
+        <div class="model-card reveal reveal-d6" data-area="188" data-price="12980000">
+          <div class="model-card-img">
+            <img src="цены и инфо о домах/Д188 модель.png" alt="Д188" loading="lazy">
+          </div>
+          <div class="model-card-body">
+            <div class="model-badge">Проект Д188 — Флагман</div>
+            <div class="model-name">Д188</div>
+            <div class="model-tagline">«Флагманская модель»</div>
+            <div class="model-specs">
+              <div class="model-spec">
+                <div class="model-spec-val">188</div>
+                <div class="model-spec-key">м² общая</div>
+              </div>
+              <div class="model-spec">
+                <div class="model-spec-val">2</div>
+                <div class="model-spec-key">этажа</div>
+              </div>
+            </div>
+            <div class="model-price">12 980 000 ₽</div>
+            <div class="model-price-label">стоимость под ключ</div>
+            <ul class="model-features">
+              <li>Семейная комната 54,4 м²</li>
+              <li>3 спальни + кабинет</li>
+              <li>2+ санузла</li>
+              <li>Двухэтажный холл</li>
+            </ul>
+            <button class="model-expand-btn">
+              Подробнее <span class="arrow">▾</span>
+            </button>
+          </div>
+          <div class="model-expanded-content">
+            <div class="model-expanded-inner">
+              <p>Д188 — флагманская модель с семейной комнатой площадью 54,4 м². Три спальни и отдельный кабинет — пространство для жизни, работы и гостей. Двухэтажный дом с максимальным комфортом и премиальными планировочными решениями.</p>
+              <div class="model-cta">
+                <a href="tel:+79031301080" class="btn btn-gold">Позвонить</a>
+                <a href="mailto:se6@yandex.ru?subject=Интерес к проекту Д188" class="btn btn-outline">Написать</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ GALLERY ═══════════════════════════════════════════════ -->
+  <section id="gallery">
+    <div class="container">
+      <div class="gallery-header">
+        <span class="section-label reveal">Процесс строительства</span>
+        <h2 class="reveal reveal-d1" style="color:var(--cream)">Как строится дом</h2>
+        <p class="reveal reveal-d2">От фундамента до ключей — 12 этапов за 8–12 недель</p>
+      </div>
+
+      <div class="gallery-frame reveal reveal-d2">
+        <div id="gallerySlides"></div>
+        <div class="gallery-caption">
+          <div class="gallery-caption-step" id="galleryStep">Этап 1 из 12</div>
+          <div class="gallery-caption-text" id="galleryCaption">Подготовка площадки и фундамент</div>
+        </div>
+        <div class="gallery-counter" id="galleryCounter">1 / 12</div>
+        <div class="gallery-progress">
+          <div class="gallery-progress-bar" id="galleryBar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FACADES ═══════════════════════════════════════════════ -->
+  <section id="facades">
+    <div class="container">
+      <div class="facades-header">
+        <span class="section-label reveal">Варианты отделки</span>
+        <h2 class="reveal reveal-d1" style="color:var(--cream)">Ваш дом — ваш стиль</h2>
+        <p class="reveal reveal-d2">Один конструктив — бесконечные варианты фасадной отделки. Штукатурка, дерево, кирпич, панели — выбирайте характер своего дома.</p>
+      </div>
+
+      <div class="facades-grid">
+        <div class="facade-item reveal reveal-d1">
+          <img src="планировки/дом 60 м2.jpg" alt="Д60 классика" loading="lazy">
+          <div class="facade-item-label">Д60 · Классика</div>
+        </div>
+        <div class="facade-item reveal reveal-d2">
+          <img src="планировки/дом 60 м2 штукатурка.jpg" alt="Д60 штукатурка" loading="lazy">
+          <div class="facade-item-label">Д60 · Штукатурка</div>
+        </div>
+        <div class="facade-item reveal reveal-d3">
+          <img src="планировки/дом 60 м2 кирпич.jpg" alt="Д60 кирпич" loading="lazy">
+          <div class="facade-item-label">Д60 · Кирпичная отделка</div>
+        </div>
+        <div class="facade-item reveal reveal-d4">
+          <img src="планировки/дом 60м2 дерево.jpg" alt="Д60 дерево" loading="lazy">
+          <div class="facade-item-label">Д60 · Дерево</div>
+        </div>
+        <div class="facade-item reveal reveal-d1">
+          <img src="планировки/дом 60 м2 штукатурка + дерево.jpg" alt="Д60 микс" loading="lazy">
+          <div class="facade-item-label">Д60 · Штукатурка + дерево</div>
+        </div>
+        <div class="facade-item reveal reveal-d2">
+          <img src="планировки/дом 80м2 1.jpg" alt="Д80" loading="lazy">
+          <div class="facade-item-label">Д80 · Светлая отделка</div>
+        </div>
+        <div class="facade-item reveal reveal-d3">
+          <img src="планировки/дом 100м2 1.jpg" alt="Д100 вариант 1" loading="lazy">
+          <div class="facade-item-label">Д100 · Вариант 1</div>
+        </div>
+        <div class="facade-item reveal reveal-d4">
+          <img src="планировки/дом 110 м2 белый.jpg" alt="Д110 белый" loading="lazy">
+          <div class="facade-item-label">Д110 · Белый минимализм</div>
+        </div>
+        <div class="facade-item reveal reveal-d1">
+          <img src="планировки/дом 100м2 2.jpg" alt="Д100 вариант 2" loading="lazy">
+          <div class="facade-item-label">Д100 · Вариант 2</div>
+        </div>
+        <div class="facade-item reveal reveal-d2">
+          <img src="планировки/дом 100м2 3.jpg" alt="Д100 вариант 3" loading="lazy">
+          <div class="facade-item-label">Д100 · Вариант 3</div>
+        </div>
+        <div class="facade-item reveal reveal-d3">
+          <img src="планировки/дом 120 м2.jpg" alt="Д120" loading="lazy">
+          <div class="facade-item-label">Д120 · Современный</div>
+        </div>
+        <div class="facade-item reveal reveal-d4">
+          <img src="планировки/дом 150 м2.jpg" alt="Д150" loading="lazy">
+          <div class="facade-item-label">Д150 · Представительный</div>
+        </div>
+      </div>
+
+      <div class="facades-note reveal">
+        <p><strong>Фасадная отделка не влияет на стоимость коробки</strong> — цена проекта включает монтаж ЖБК-конструкции. Тип облицовки, цвет и материалы обсуждаются отдельно и подбираются под ваш вкус и бюджет. Возможны любые сочетания: штукатурка, декоративный кирпич, деревянная обшивка, вентилируемый фасад.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ GUARANTEE ═════════════════════════════════════════════ -->
+  <section id="guarantee">
+    <div class="container">
+      <div class="guarantee-inner">
+        <div class="guarantee-text">
+          <span class="section-label reveal">Гарантия и надёжность</span>
+          <h2 class="reveal reveal-d1">Надёжность,<br><em class="serif-italic">подтверждённая заводом</em></h2>
+          <div class="gold-line reveal reveal-d2"></div>
+          <p class="reveal reveal-d3">
+            Конструкции изготавливает завод <strong>МОСБЕТОН</strong> — ведущий производитель железобетонных изделий. На все ЖБК-элементы предоставляется <strong>официальная документарная гарантия</strong>.
+          </p>
+          <p class="reveal reveal-d4">
+            Система домостроения разработана <strong>ЦНИЙЭП Жилища</strong> — Центральным научно-исследовательским институтом экспериментального проектирования. Многолетняя практика, тысячи построенных объектов.
+          </p>
+
+          <div class="guarantee-items">
+            <div class="guarantee-item reveal">
+              <span class="guarantee-item-icon">📋</span>
+              <span class="guarantee-item-text">Документарная гарантия на все ЖБК-конструкции от МОСБЕТОН</span>
+            </div>
+            <div class="guarantee-item reveal reveal-d1">
+              <span class="guarantee-item-icon">🔬</span>
+              <span class="guarantee-item-text">Заводской контроль качества — ГОСТ и нормативы строительства</span>
+            </div>
+            <div class="guarantee-item reveal reveal-d2">
+              <span class="guarantee-item-icon">📐</span>
+              <span class="guarantee-item-text">Проекты прошли экспертизу ЦНИЙЭП Жилища</span>
+            </div>
+            <div class="guarantee-item reveal reveal-d3">
+              <span class="guarantee-item-icon">🤝</span>
+              <span class="guarantee-item-text">Авторское сопровождение от закладки фундамента до сдачи объекта</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="guarantee-visual reveal reveal-d3">
+          <div class="guarantee-logo-wrap">
+            <div>
+              <div class="guarantee-years">50+</div>
+              <div class="guarantee-years-label">лет расчётного срока службы</div>
+            </div>
+            <img src="garanty_mosbeton.jpeg" alt="МОСБЕТОН — гарантия качества">
+            <div class="guarantee-badge-text">
+              Официальный гарантийный документ<br>производителя конструкций
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACTS ═══════════════════════════════════════════════ -->
+  <section id="contacts">
+    <div class="container">
+      <div class="contacts-inner">
+        <div class="contacts-left">
+          <span class="section-label reveal">Контакты</span>
+          <h2 class="reveal reveal-d1" style="color:var(--cream)">Начните<br><em class="serif-italic">прямо сейчас</em></h2>
+          <p class="reveal reveal-d2">Позвоните или напишите — обсудим ваш проект, площадь, бюджет и сроки. Ответим на все вопросы.</p>
+
+          <div class="contact-item reveal reveal-d2">
+            <div class="contact-label">Телефон</div>
+            <div class="contact-value"><a href="tel:+79031301080">+7 903 130 10 80</a></div>
+          </div>
+          <div class="contact-item reveal reveal-d3">
+            <div class="contact-label">Электронная почта</div>
+            <div class="contact-value"><a href="mailto:se6@yandex.ru">se6@yandex.ru</a></div>
+          </div>
+          <div class="contact-item reveal reveal-d4">
+            <div class="contact-label">Сайт</div>
+            <div class="contact-value"><a href="https://dom-beton.ru/" target="_blank" rel="noopener">dom-beton.ru</a></div>
+          </div>
+        </div>
+
+        <div class="contacts-cta reveal reveal-d3">
+          <h3>Хотите узнать стоимость под ваш участок?</h3>
+          <p>Расскажите о желаемой площади, количестве комнат и регионе — рассчитаем полную смету с учётом фундамента и доставки.</p>
+          <div class="contacts-cta-actions">
+            <a href="tel:+79031301080" class="btn btn-gold">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12 19.79 19.79 0 01.12 3.38 2 2 0 012.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.18 6.18l1.47-.44a2 2 0 012.11.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+              Позвонить
+            </a>
+            <a href="mailto:se6@yandex.ru?subject=Расчёт стоимости дома&body=Здравствуйте! Хочу узнать стоимость дома..." class="btn btn-outline">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Написать на почту
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <img src="logo.png" alt="Дом-Бетон">
+          <span class="footer-copy">ПО «ЦНИЙЭП Жилища» — каменные дома из ЖБК</span>
+        </div>
+        <div class="footer-right">© 2025 Дом-Бетон · dom-beton.ru</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Mobile menu ─────────────────────────────────────────────
+    const burger = document.getElementById('navBurger');
+    const mobileMenu = document.getElementById('navMobileMenu');
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.nav-mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        burger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // ── Scroll reveal ──────────────────────────────────────────
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ── Nav scroll ──────────────────────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ── Hero bg pan ─────────────────────────────────────────────
+    const heroBg = document.getElementById('heroBg');
+    setTimeout(() => heroBg.classList.add('loaded'), 100);
+
+    // ── Catalog expand ──────────────────────────────────────────
+    document.querySelectorAll('.model-card').forEach(card => {
+      card.querySelector('.model-expand-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isExpanded = card.classList.contains('expanded');
+        document.querySelectorAll('.model-card.expanded').forEach(c => c.classList.remove('expanded'));
+        if (!isExpanded) card.classList.add('expanded');
+      });
+    });
+
+    // ── Catalog sort ────────────────────────────────────────────
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const key = btn.dataset.sort;
+        const grid = document.getElementById('catalogGrid');
+        const cards = [...grid.querySelectorAll('.model-card')];
+        cards.sort((a, b) => +a.dataset[key] - +b.dataset[key]);
+        cards.forEach(c => grid.appendChild(c));
+      });
+    });
+
+    // ── Gallery ─────────────────────────────────────────────────
+    const galleryData = [
+      { img: 'галерея как строится дом/1.jpg',  caption: 'Подготовка площадки и фундамент' },
+      { img: 'галерея как строится дом/2.jpg',  caption: 'Установка первых панелей' },
+      { img: 'галерея как строится дом/3.jpg',  caption: 'Монтаж несущих стен' },
+      { img: 'галерея как строится дом/4.jpg',  caption: 'Сборка коробки дома' },
+      { img: 'галерея как строится дом/5.jpg',  caption: 'Устройство перекрытий' },
+      { img: 'галерея как строится дом/6.jpg',  caption: 'Монтаж кровельных конструкций' },
+      { img: 'галерея как строится дом/7.jpg',  caption: 'Наружные работы и стыковки' },
+      { img: 'галерея как строится дом/8.jpg',  caption: 'Установка окон и дверей' },
+      { img: 'галерея как строится дом/9.jpg',  caption: 'Прокладка инженерных систем' },
+      { img: 'галерея как строится дом/10.jpg', caption: 'Внутренняя отделка' },
+      { img: 'галерея как строится дом/11.jpg', caption: 'Фасадная отделка' },
+      { img: 'галерея как строится дом/12.jpg', caption: 'Готовый дом — ваш дом' },
+    ];
+
+    const slidesContainer = document.getElementById('gallerySlides');
+    const captionStep = document.getElementById('galleryStep');
+    const captionText = document.getElementById('galleryCaption');
+    const counterEl = document.getElementById('galleryCounter');
+    const barEl = document.getElementById('galleryBar');
+
+    // Build slides
+    galleryData.forEach((item, i) => {
+      const slide = document.createElement('div');
+      slide.className = 'gallery-slide' + (i === 0 ? ' active' : '');
+      const img = document.createElement('img');
+      img.src = item.img;
+      img.alt = item.caption;
+      img.loading = i === 0 ? 'eager' : 'lazy';
+      slide.appendChild(img);
+      slidesContainer.appendChild(slide);
+    });
+
+    const slides = slidesContainer.querySelectorAll('.gallery-slide');
+    let current = 0;
+    let barTimeout;
+
+    function startBar() {
+      barEl.style.transition = 'none';
+      barEl.style.width = '0%';
+      void barEl.offsetWidth; // reflow
+      barEl.style.transition = 'width 3s linear';
+      barEl.style.width = '100%';
+    }
+
+    function goTo(idx) {
+      slides[current].classList.remove('active');
+      current = idx;
+      slides[current].classList.add('active');
+      captionStep.textContent = `Этап ${current + 1} из 12`;
+      captionText.textContent = galleryData[current].caption;
+      counterEl.textContent = `${current + 1} / 12`;
+      startBar();
+    }
+
+    startBar();
+    setInterval(() => goTo((current + 1) % galleryData.length), 3000);
+
+    // Preload next images
+    function preloadNext() {
+      const next = (current + 1) % galleryData.length;
+      const img = new Image();
+      img.src = galleryData[next].img;
+    }
+    setInterval(preloadNext, 2500);
+  </script>
+</body>
+</html>
