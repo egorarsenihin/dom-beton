@@ -33,6 +33,7 @@
       font-size: 15px;
       line-height: 1.7;
       overflow-x: hidden;
+      max-width: 100vw;
     }
 
     /* ── Noise overlay ──────────────────────────────────────── */
@@ -347,18 +348,32 @@
 
     .hero-stats {
       display: flex;
+      flex-wrap: wrap;
       gap: 0;
       border-top: 1px solid var(--border);
       padding-top: 40px;
     }
     .hero-stat {
-      flex: 1;
+      flex: 1 1 140px;
       max-width: 220px;
       padding-right: 40px;
       border-right: 1px solid var(--border);
       margin-right: 40px;
     }
     .hero-stat:last-child { border-right: none; margin-right: 0; }
+    @media (max-width: 560px) {
+      .hero-stat {
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding-right: 0;
+        margin-right: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 4px;
+      }
+      .hero-stat:last-child { border-bottom: none; }
+    }
     .hero-stat-num {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.4rem, 4.5vw, 3.6rem);
